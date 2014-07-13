@@ -12,8 +12,10 @@ consumption_data2$Global_active_power <- as.numeric(consumption_data2$Global_act
 consumption_data2$Global_reactive_power <-as.numeric(consumption_data2$Global_reactive_power)
 consumption_data2$Voltage <- as.numeric(consumption_data2$Voltage)
 consumption_data2$Global_intensity <- as.numeric(consumption_data2$Global_intensity)
-# producing the first plot
-png("plot1.png", width = 480, height = 480)
-hist(consumption_data2$Global_active_power,col="Red",main="Global Active Power",xlab="Global Active Power (kilowatts)")
+# transform time
+temp <- within(consumption_data2,{new_time <- paste(Date,Time,sep=" ")})
+temp3 <- within(temp,{time2 = as.POSIXct(new_time, format ="%Y-%m-%d %H:%M:%S")})
+# producing the second plot
+png("plot2.png", width = 480, height = 480)
+with(temp3, plot(time2, Global_active_power,type="l",ylab="Global Active Power (kilowatts)",xlab=""))
 dev.off()
-
